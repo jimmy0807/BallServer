@@ -2,22 +2,24 @@ var socket = new WebSocket("ws://127.0.0.1:12345/ws");
 socket.binaryType = "arraybuffer";
 socket.onmessage = function(e)
 {
-    
+    socketManager.onMessage(e);
 };
 
 socket.onopen = function (e)
 {
 	console.log("已连接至服务器");
+	socketManager.onOpen(e);
 };
   
 socket.onclose = function (e)
 {
-    
+    socketManager.onClose(e);
 };
    
 socket.onerror = function (e)
 {
    console.log("出现错误");
+   socketManager.onClose(e);
 };
 
 var socketManager = {
@@ -39,6 +41,9 @@ var socketManager = {
 	{
 		this.sendData(messageType, JSON.stringify(object))
 	},
+	onMessage : function(e){},
+	onOpen : function (e){},
+	onClose : function (e){},
 }
 
 function stringToBytes(str) {
