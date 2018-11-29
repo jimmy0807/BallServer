@@ -35,7 +35,7 @@ func wsPage(res http.ResponseWriter, req *http.Request) {
 
 func registerProcssor() {
 	processingChain = make(map[uint32]processor.ProcessingChain)
-	processingChain[message.NewUserEnter] = processor.AddProcessor(1, processor.NewUserEnterProcess)
+	processingChain[message.NewUserEnter] = processor.AddProcessor(message.NewUserEnter, processor.NewUserEnterProcess)
 }
 
 func registerResponse() {
@@ -62,7 +62,7 @@ func onMessage(message []byte, client *websocket.Client) {
 	if 0x34 == b {
 		fmt.Println("little endian")
 		aa = binary.BigEndian.Uint32(message)
-
+		fmt.Println(string(message[4:]))
 		processingChain[aa].ProcessFunction(message[4:], client)
 	} else {
 		fmt.Println("big endian")

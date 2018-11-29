@@ -11,19 +11,17 @@ import (
 
 //NewUserEnterProcess 处理
 func NewUserEnterProcess(object interface{}, client *websocket.Client) {
-	var message message.NewUserEnterMessage
+	var msg message.NewUserEnterMessage
 
-	err := json.Unmarshal(object.([]byte), &message)
+	err := json.Unmarshal(object.([]byte), &msg)
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
-	fmt.Println(message.Position)
 
-	bytesM := IntToBytes(2)
 	var buffer bytes.Buffer //Buffer是一个实现了读写方法的可变大小的字节缓冲
 
-	buffer.Write(bytesM)
-
+	buffer.Write(IntToBytes(message.NewUserEnterBroadCast))
 	buffer.Write(object.([]byte))
 
 	websocket.Instance().Send(buffer.Bytes(), nil)

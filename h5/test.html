@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Sample of websocket with golang</title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="websocket.js"></script>
+
+    <script>
+
+setTimeout(function() {
+  var message = {}
+          
+          message.pos = "12,32"
+          message.userID = 3
+          message.data = "你好"
+          var bytes = JSON.stringify(message)
+
+        socketManager.sendObject(1, message)
+}, 1000);
+          
+      
+
+    </script>
+</head>
+<body>
+<input id="name" type="text"/>
+<input type="button" id="sendBtn" value="send"/>
+<ul id="msg-list"></ul>
+</body>
+</html>

@@ -4,4 +4,5 @@ package message
 const (
 	FirstEmpty = iota
 	NewUserEnter
+	NewUserEnterBroadCast
 )
