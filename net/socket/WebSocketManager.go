@@ -9,9 +9,14 @@ import (
 	"github.com/satori/go.uuid"
 )
 
+type testMessage struct {
+	client  *Client
+	message []byte
+}
+
 //ClientManager 用户信息
 type ClientManager struct {
-	broadcast  chan []byte
+	broadcast  chan testMessage
 	register   chan *Client
 	unregister chan *Client
 	clients    map[*Client]bool
@@ -32,7 +37,7 @@ var once sync.Once
 func Instance() *ClientManager {
 	once.Do(func() {
 		instance = &ClientManager{
-			broadcast:  make(chan []byte),
+			broadcast:  make(chan testMessage),
 			register:   make(chan *Client),
 			unregister: make(chan *Client),
 			clients:    make(map[*Client]bool),
@@ -52,7 +57,7 @@ func (manager *ClientManager) Start(delegate *Delegate) {
 			//jsonMessage, _ := json.Marshal(&Message{Content: "/A new socket has connected."})
 			//manager.send(jsonMessage, conn)
 			jsonMessage, _ := json.Marshal(&Message{Content: "/A new socket has connected."})
-			manager.send(jsonMessage, nil)
+			manager.Send(jsonMessage, nil)
 			manager.delegate.onConnected(Message{Content: "/A new socket has connected."})
 		case conn := <-manager.unregister:
 			if _, ok := manager.clients[conn]; ok {
@@ -63,21 +68,22 @@ func (manager *ClientManager) Start(delegate *Delegate) {
 				manager.delegate.onDisConnected(Message{Content: "/A new socket has disconnected."})
 			}
 		case message := <-manager.broadcast:
-			manager.delegate.onMessage(message)
-			for conn := range manager.clients {
-				select {
-				//在某些情况下是存在不希望channel缓存满了的需求的，可以用如下方法判断
-				case conn.send <- message:
-				default:
-					close(conn.send)
-					delete(manager.clients, conn)
-				}
-			}
+			manager.delegate.onMessage(message.message, message.client)
+			// for conn := range manager.clients {
+			// 	select {
+			// 	//在某些情况下是存在不希望channel缓存满了的需求的，可以用如下方法判断
+			// 	case conn.send <- message:
+			// 	default:
+			// 		close(conn.send)
+			// 		delete(manager.clients, conn)
+			// 	}
+			// }
 		}
 	}
 }
 
-func (manager *ClientManager) send(message []byte, ignore *Client) {
+//Send 发送
+func (manager *ClientManager) Send(message []byte, ignore *Client) {
 	for conn := range manager.clients {
 		if conn != ignore {
 			conn.send <- message
@@ -101,7 +107,11 @@ func (c *Client) read() {
 
 		// jsonMessage, _ := json.Marshal(&Message{Sender: c.id, Content: string(message)})
 		// instance.broadcast <- jsonMessage
-		instance.broadcast <- message
+
+		instance.broadcast <- testMessage{
+			message: message,
+			client:  c,
+		}
 	}
 }
 

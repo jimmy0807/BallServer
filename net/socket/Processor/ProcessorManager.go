@@ -1,7 +1,11 @@
 package processor
 
+import (
+	"ball/net/socket"
+)
+
 //OnProcess 处理请求
-type OnProcess func(object interface{})
+type OnProcess func(object interface{}, client *websocket.Client)
 
 //ProcessingChain 请求结构
 type ProcessingChain struct {

@@ -1,6 +1,7 @@
 package message
 
-//Sunday = iota
+//FirstEmpty = iota
 const (
-	NewUserEnter = iota
+	FirstEmpty = iota
+	NewUserEnter
 )
