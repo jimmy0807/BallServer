@@ -49,19 +49,21 @@ func (manager *ClientManager) Start(delegate *Delegate) {
 		select {
 		case conn := <-manager.register:
 			manager.clients[conn] = true
+			//jsonMessage, _ := json.Marshal(&Message{Content: "/A new socket has connected."})
+			//manager.send(jsonMessage, conn)
 			jsonMessage, _ := json.Marshal(&Message{Content: "/A new socket has connected."})
-			manager.send(jsonMessage, conn)
+			manager.send(jsonMessage, nil)
 			manager.delegate.onConnected(Message{Content: "/A new socket has connected."})
 		case conn := <-manager.unregister:
 			if _, ok := manager.clients[conn]; ok {
 				close(conn.send)
 				delete(manager.clients, conn)
-				jsonMessage, _ := json.Marshal(&Message{Content: "/A socket has disconnected."})
-				manager.send(jsonMessage, conn)
+				//jsonMessage, _ := json.Marshal(&Message{Content: "/A socket has disconnected."})
+				//manager.send(jsonMessage, conn)
 				manager.delegate.onDisConnected(Message{Content: "/A new socket has disconnected."})
 			}
 		case message := <-manager.broadcast:
-			manager.delegate.onMessage(Message{Content: "有消息了"})
+			manager.delegate.onMessage(message)
 			for conn := range manager.clients {
 				select {
 				//在某些情况下是存在不希望channel缓存满了的需求的，可以用如下方法判断
@@ -96,8 +98,10 @@ func (c *Client) read() {
 			c.socket.Close()
 			break
 		}
-		jsonMessage, _ := json.Marshal(&Message{Sender: c.id, Content: string(message)})
-		instance.broadcast <- jsonMessage
+
+		// jsonMessage, _ := json.Marshal(&Message{Sender: c.id, Content: string(message)})
+		// instance.broadcast <- jsonMessage
+		instance.broadcast <- message
 	}
 }
 

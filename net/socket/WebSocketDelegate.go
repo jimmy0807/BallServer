@@ -2,7 +2,7 @@ package websocket
 
 type onConnected func(message Message)
 type onDisConnected func(message Message)
-type onMessage func(message Message)
+type onMessage func(message []byte)
 
 //Delegate 代理
 type Delegate struct {

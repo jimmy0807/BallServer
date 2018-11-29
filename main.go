@@ -1,14 +1,23 @@
 package main
 
 import (
+	"encoding/binary"
 	"fmt"
 	"net/http"
+	"unsafe"
 
 	"ball/net/socket"
+	"ball/net/socket/Message"
+	"ball/net/socket/Processor"
 )
+
+var processingChain map[uint32]processor.ProcessingChain
 
 func main() {
 	fmt.Println("Starting application...")
+
+	registerProcssor()
+	registerResponse()
 
 	webSocketDelegate := new(websocket.Delegate)
 	webSocketDelegate.SetOnConnected(onConnected)
@@ -24,6 +33,20 @@ func wsPage(res http.ResponseWriter, req *http.Request) {
 	websocket.Instance().Upgrader(res, req)
 }
 
+func registerProcssor() {
+	processingChain = make(map[uint32]processor.ProcessingChain)
+	processingChain[message.NewUserEnter] = processor.AddProcessor(1, test)
+}
+
+func registerResponse() {
+
+}
+
+func test(object interface{}) {
+	message := object.([]byte)
+	fmt.Println(string(message[4:]))
+}
+
 func onConnected(message websocket.Message) {
 
 }
@@ -32,6 +55,28 @@ func onDisConnected(message websocket.Message) {
 
 }
 
-func onMessage(message websocket.Message) {
+func onMessage(message []byte) {
+	s := int16(0x1234)
+	b := int8(s)
+	fmt.Println("int16字节大小为", unsafe.Sizeof(s)) //结果为2
 
+	c1 := string(message[7:8])
+	fmt.Println(c1)
+	var aa uint32
+
+	if 0x34 == b {
+		fmt.Println("little endian")
+		aa = binary.BigEndian.Uint32(message)
+		processingChain[aa].ProcessFunction(message)
+	} else {
+		fmt.Println("big endian")
+		aa = binary.LittleEndian.Uint32(message)
+	}
+
+	fmt.Println(aa)
+	c2 := message[4:8]
+	fmt.Println(c2)
+	c3 := string(c2)
+	fmt.Println(c3)
+	fmt.Println(string(message[4:5]))
 }
