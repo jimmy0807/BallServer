@@ -55,18 +55,18 @@ func onMessage(message []byte, client *websocket.Client) {
 	b := int8(s)
 	fmt.Println("int16字节大小为", unsafe.Sizeof(s)) //结果为2
 
-	c1 := string(message[7:8])
-	fmt.Println(c1)
-	var aa uint32
+	// c1 := string(message[7:8])
+	// fmt.Println(c1)
+	var messageType uint32
 
 	if 0x34 == b {
 		fmt.Println("little endian")
-		aa = binary.BigEndian.Uint32(message)
+		messageType = binary.BigEndian.Uint32(message)
 		fmt.Println(string(message[4:]))
-		processingChain[aa].ProcessFunction(message[4:], client)
+		processingChain[messageType].ProcessFunction(message[4:], client)
 	} else {
 		fmt.Println("big endian")
-		aa = binary.LittleEndian.Uint32(message)
+		messageType = binary.LittleEndian.Uint32(message)
 	}
 
 	// fmt.Println(aa)

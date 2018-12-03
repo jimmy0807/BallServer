@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <title>Sample of websocket with golang</title>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="websocket.js"></script>
+    <script src="Socket/websocketManager.js"></script>
 
     <script>
 
@@ -16,7 +16,7 @@ setTimeout(function() {
           message.data = "你好"
           var bytes = JSON.stringify(message)
 
-        socketManager.sendObject(1, message)
+        websocketManager.sendObject(1, message)
 }, 1000);
           
       
