@@ -44,6 +44,10 @@ var websocket = {
 	onMessage : function(e){},
 	onOpen : function (e){},
 	onClose : function (e){},
+	connect : function()
+	{
+		
+	}
 }
 
 function stringToBytes(str) {

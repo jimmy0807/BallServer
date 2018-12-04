@@ -255,11 +255,29 @@
 		//将所有的小球传到函数中,来实现对小球的移动
 		moveBalls(balls[i], i);
 	}
-
-
 </script>
 <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
-<script src="ji.vue.js">
-</script>
+<script src="ji.vue.js"></script>
+<script src="Message/MessageEnum.js"></script>
+<script src="Processor/ProcessNewUserEnter.js"></script>
+<script src="Socket/websocketManager.js"></script>
 
+
+
+
+
+<script type="text/javascript">
+console.log("123")
+websocketManager.registerProcssor(messageEnum.NewUserEnterBroadCast, processNewUserEnter)
+setTimeout(function() {
+  var message = {}
+          
+          message.pos = "12,32"
+          message.userID = 3
+          message.data = "你好"
+          var bytes = JSON.stringify(message)
+
+        websocketManager.sendObject(1, message)
+}, 500);
+</script>
 </html>

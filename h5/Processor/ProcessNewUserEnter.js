@@ -1,0 +1,4 @@
+processNewUserEnter = (message) =>
+{
+
+}

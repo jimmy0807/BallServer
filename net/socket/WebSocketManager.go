@@ -1,7 +1,6 @@
 package websocket
 
 import (
-	"encoding/json"
 	"net/http"
 	"sync"
 
@@ -56,8 +55,8 @@ func (manager *ClientManager) Start(delegate *Delegate) {
 			manager.clients[conn] = true
 			//jsonMessage, _ := json.Marshal(&Message{Content: "/A new socket has connected."})
 			//manager.send(jsonMessage, conn)
-			jsonMessage, _ := json.Marshal(&Message{Content: "/A new socket has connected."})
-			manager.Send(jsonMessage, nil)
+			//jsonMessage, _ := json.Marshal(&Message{Content: "/A new socket has connected."})
+			//manager.Send(jsonMessage, nil)
 			manager.delegate.onConnected(Message{Content: "/A new socket has connected."})
 		case conn := <-manager.unregister:
 			if _, ok := manager.clients[conn]; ok {

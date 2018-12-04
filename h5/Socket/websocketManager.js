@@ -5,7 +5,7 @@ window.onload = function()
     {
         script = document.createElement("script");
         script.setAttribute("type","text/javascript");
-        script.setAttribute("src",jsArray[i].name);// 在这里引入了a.js
+        script.setAttribute("src",jsArray[i].name);
         callback = jsArray[i].func
         document.body.appendChild(script);
 
@@ -34,8 +34,6 @@ function onWebSocketJSOnLoaded()
           arr.push(buffer.charCodeAt(i));
         }
 
-        websocketManager.registerProcssor(2, test)
-
         var messageType = new DataView(new Uint8Array(arr).buffer).getUint32(0);
         var bytes = event.data.slice(4);
 
@@ -61,7 +59,6 @@ function test(bytes)
 }
 
 var websocketManager = {
-    procssorChain : {},
 	sendData : function(messageType, data)
 	{
 		websocket.sendData(messageType, data)
@@ -74,3 +71,5 @@ var websocketManager = {
         this.procssorChain[messageType] = func
     },
 }
+
+websocketManager.procssorChain = {}
