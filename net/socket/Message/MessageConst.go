@@ -5,4 +5,6 @@ const (
 	FirstEmpty = iota
 	NewUserEnter
 	NewUserEnterBroadCast
+	UserMoveMessage
+	UserMovedBroadCast
 )

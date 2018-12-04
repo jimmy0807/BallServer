@@ -9,8 +9,8 @@ import (
 	"fmt"
 )
 
-//NewUserEnterProcess 处理
-func NewUserEnterProcess(object interface{}, client *websocket.Client) {
+//UserMoveProcess 处理
+func UserMoveProcess(object interface{}, client *websocket.Client) {
 	var msg message.NewUserEnterMessage
 
 	err := json.Unmarshal(object.([]byte), &msg)
@@ -21,7 +21,7 @@ func NewUserEnterProcess(object interface{}, client *websocket.Client) {
 
 	var buffer bytes.Buffer //Buffer是一个实现了读写方法的可变大小的字节缓冲
 
-	buffer.Write(Tools.IntToBytes(message.NewUserEnterBroadCast))
+	buffer.Write(Tools.IntToBytes(message.UserMovedBroadCast))
 	buffer.Write(object.([]byte))
 
 	websocket.Instance().Send(buffer.Bytes(), client)
