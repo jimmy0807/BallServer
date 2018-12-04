@@ -116,32 +116,46 @@
 	var balls = [];
 	//生成小球函数
 	function createBalls() {
-		for (var i = 0; i < 16; i++) {
-			var ball = document.createElement("p");
-			//随机小球起始的X坐标和小球的Y坐标
-			ball.x = randomNum(0, 1200);
-			ball.y = randomNum(0, 700);
-			//随机小球的移动速度
-			ball.speed = 0.5
-			//随机小球移动的方向
-			if (Math.random() - 0.5 > 0) {
-				ball.xflag = true;
-			} else {
-				ball.xflag = false;
-			}
-			if (Math.random() - 0.5 > 0) {
-				ball.yflag = true;
-			} else {
-				ball.yflag = false;
-			}
-			//随机小球的背景颜色
-			ball.style.backgroundColor = i == 0 ? "#F00" : randomColor();
-			ball.innerHTML = i + 1;
-			//将小球插入当wrapDiv中
-			wrapDiv.appendChild(ball);
-			//将所有的小球存储到数组中
-			balls.push(ball);
-		}
+		var i = 0
+			
+
+			setTimeout(function() {
+				var ball = document.createElement("p");
+				//随机小球起始的X坐标和小球的Y坐标
+				ball.x = randomNum(0, 1200);
+				ball.y = randomNum(0, 700);
+				//随机小球的移动速度
+				ball.speed = 0.5
+				//随机小球移动的方向
+				if (Math.random() - 0.5 > 0) {
+					ball.xflag = true;
+				} else {
+					ball.xflag = false;
+				}
+				if (Math.random() - 0.5 > 0) {
+					ball.yflag = true;
+				} else {
+					ball.yflag = false;
+				}
+				//随机小球的背景颜色
+				//ball.style.backgroundColor = i == 0 ? "#F00" : randomColor();
+				ball.style.backgroundColor = randomColor();
+				ball.innerHTML = i + 1;
+				//将小球插入当wrapDiv中
+				wrapDiv.appendChild(ball);
+				//将所有的小球存储到数组中
+				balls.push(ball);
+				moveBalls(ball, 0);
+				var message = {}
+						
+				message.pos = ball.x + "," + ball.y + "," + ball.xflag + "," + ball.yflag
+				message.userID = 3
+				message.data = "你好"
+				var bytes = JSON.stringify(message)
+			
+				websocketManager.sendObject(1, message)
+			}, 500);
+		
 	}
 	createBalls();
 	//小球移动函数，判断小球的位置
@@ -189,10 +203,10 @@
 
 			if(index!=0 && ballObj.speed >=0.5 ){
 				//摩擦系数
-				ballObj.speed = ballObj.speed * 0.98;
+				//ballObj.speed = ballObj.speed * 0.98;
 			}
 
-			crash(ballObj, index);
+			//crash(ballObj, index);
 		}, 10);
 	}
 	var x1, y1, x2, y2;
@@ -251,10 +265,10 @@
 			}
 		}
 	}
-	for (var i = 0; i < balls.length; i++) {
-		//将所有的小球传到函数中,来实现对小球的移动
-		moveBalls(balls[i], i);
-	}
+	// for (var i = 0; i < balls.length; i++) {
+	// 	//将所有的小球传到函数中,来实现对小球的移动
+	// 	moveBalls(balls[i], i);
+	// }
 </script>
 <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
 <script src="ji.vue.js"></script>
@@ -269,15 +283,6 @@
 <script type="text/javascript">
 console.log("123")
 websocketManager.registerProcssor(messageEnum.NewUserEnterBroadCast, processNewUserEnter)
-setTimeout(function() {
-  var message = {}
-          
-          message.pos = "12,32"
-          message.userID = 3
-          message.data = "你好"
-          var bytes = JSON.stringify(message)
 
-        websocketManager.sendObject(1, message)
-}, 500);
 </script>
 </html>

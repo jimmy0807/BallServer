@@ -24,7 +24,7 @@ func NewUserEnterProcess(object interface{}, client *websocket.Client) {
 	buffer.Write(IntToBytes(message.NewUserEnterBroadCast))
 	buffer.Write(object.([]byte))
 
-	websocket.Instance().Send(buffer.Bytes(), nil)
+	websocket.Instance().Send(buffer.Bytes(), client)
 }
 
 //IntToBytes sdf

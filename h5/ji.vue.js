@@ -44,7 +44,7 @@ jivue = new Vue({
     }
     
   });
-  balls[0].speed = 0.5;
+  // balls[0].speed = 0.5;
   function moveball1x(xf ) {
 		var ballObj = balls[0];
     ballObj.xflag = xf == 0?true:false;

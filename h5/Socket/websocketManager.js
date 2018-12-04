@@ -53,11 +53,6 @@ function onWebSocketJSOnLoaded()
     }
 }
 
-function test(bytes)
-{
-
-}
-
 var websocketManager = {
 	sendData : function(messageType, data)
 	{
