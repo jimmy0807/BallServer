@@ -1,7 +1,8 @@
 var messageEnum = 
 {
-    NewUserEnter : 1,
-    NewUserEnterBroadCast : 2,
-    UserMoveMessage : 3,
-	UserMovedBroadCast : 4,
+    OnReadyBroadCast : 1,
+    NewUserEnter : 2,
+    NewUserEnterBroadCast : 3,
+    UserMoveMessage : 4,
+	UserMovedBroadCast : 5,
 }

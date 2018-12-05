@@ -1,6 +1,6 @@
 package websocket
 
-type onConnected func(message Message)
+type onConnected func(client *Client)
 type onDisConnected func(message Message)
 type onMessage func(message []byte, client *Client)
 

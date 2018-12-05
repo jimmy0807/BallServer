@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"encoding/binary"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"unsafe"
@@ -9,6 +11,7 @@ import (
 	"ball/net/socket"
 	"ball/net/socket/Message"
 	"ball/net/socket/Processor"
+	"ball/net/socket/Tools"
 )
 
 var processingChain map[uint32]processor.ProcessingChain
@@ -36,15 +39,25 @@ func wsPage(res http.ResponseWriter, req *http.Request) {
 func registerProcssor() {
 	processingChain = make(map[uint32]processor.ProcessingChain)
 	processingChain[message.NewUserEnter] = processor.AddProcessor(message.NewUserEnter, processor.NewUserEnterProcess)
-	processingChain[message.NewUserEnter] = processor.AddProcessor(message.UserMoveMessage, processor.UserMoveProcess)
+	processingChain[message.UserMovedBroadCast] = processor.AddProcessor(message.UserMoveMessage, processor.UserMoveProcess)
 }
 
 func registerResponse() {
 
 }
 
-func onConnected(message websocket.Message) {
+func onConnected(client *websocket.Client) {
+	var msg message.OnReadyMessage
+	msg.UserID = client.ID
 
+	var buffer bytes.Buffer //Buffer是一个实现了读写方法的可变大小的字节缓冲
+
+	jsonMessage, _ := json.Marshal(msg)
+
+	buffer.Write(Tools.IntToBytes(message.OnReadyBroadCast))
+	buffer.Write(jsonMessage)
+
+	websocket.Instance().SendToOneClient(buffer.Bytes(), client)
 }
 
 func onDisConnected(message websocket.Message) {

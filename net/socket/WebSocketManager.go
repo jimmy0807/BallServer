@@ -24,7 +24,7 @@ type ClientManager struct {
 
 //Client Channel
 type Client struct {
-	id     string
+	ID     string
 	socket *websocket.Conn
 	send   chan []byte
 }
@@ -57,7 +57,7 @@ func (manager *ClientManager) Start(delegate *Delegate) {
 			//manager.send(jsonMessage, conn)
 			//jsonMessage, _ := json.Marshal(&Message{Content: "/A new socket has connected."})
 			//manager.Send(jsonMessage, nil)
-			manager.delegate.onConnected(Message{Content: "/A new socket has connected."})
+			manager.delegate.onConnected(conn)
 		case conn := <-manager.unregister:
 			if _, ok := manager.clients[conn]; ok {
 				close(conn.send)
@@ -88,6 +88,11 @@ func (manager *ClientManager) Send(message []byte, ignore *Client) {
 			conn.send <- message
 		}
 	}
+}
+
+//SendToOneClient 发送
+func (manager *ClientManager) SendToOneClient(message []byte, client *Client) {
+	client.send <- message
 }
 
 func (c *Client) read() {
@@ -142,7 +147,7 @@ func (manager *ClientManager) Upgrader(res http.ResponseWriter, req *http.Reques
 
 	u1, _ := uuid.NewV4()
 
-	client := &Client{id: u1.String(), socket: conn, send: make(chan []byte)}
+	client := &Client{ID: u1.String(), socket: conn, send: make(chan []byte)}
 
 	instance.register <- client
 

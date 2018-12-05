@@ -1,9 +1,9 @@
-processNewUserEnter = (message) =>
+processUserMove = (message) =>
 {
-	createBalls(JSON.parse(message));
+	createBalls2(JSON.parse(message));
 }
 
-function createBalls(message) {
+function createBalls2(message) {
     var ball = document.createElement("p");
     //随机小球起始的X坐标和小球的Y坐标
     ball.x = parseFloat(message.pos.split(",")[0])
@@ -12,8 +12,7 @@ function createBalls(message) {
     ball.yflag = message.pos.split(",")[3] == "true" ? true : false;
    
     ball.speed = 0.5
-    ball.userID = message.userID
-    
+
     //随机小球的背景颜色
     //ball.style.backgroundColor = i == 0 ? "#F00" : randomColor();
     ball.style.backgroundColor = randomColor();
