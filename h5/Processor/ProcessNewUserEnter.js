@@ -8,8 +8,8 @@ function createBalls(message) {
     //随机小球起始的X坐标和小球的Y坐标
     ball.x = parseFloat(message.pos.split(",")[0])
     ball.y = parseFloat(message.pos.split(",")[1])
-    ball.xflag = message.pos.split(",")[2] == "true" ? true : false;
-    ball.yflag = message.pos.split(",")[3] == "true" ? true : false;
+    ball.xflag = message.pos.split(",")[2] == "1" ? 1 : -1;
+    ball.yflag = message.pos.split(",")[3] == "1" ? 1 : -1;
    
     ball.speedX = 0.5
     ball.speedY = 0.5
