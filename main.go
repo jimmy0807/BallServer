@@ -39,7 +39,7 @@ func wsPage(res http.ResponseWriter, req *http.Request) {
 func registerProcssor() {
 	processingChain = make(map[uint32]processor.ProcessingChain)
 	processingChain[message.NewUserEnter] = processor.AddProcessor(message.NewUserEnter, processor.NewUserEnterProcess)
-	processingChain[message.UserMovedBroadCast] = processor.AddProcessor(message.UserMoveMessage, processor.UserMoveProcess)
+	processingChain[message.UserMoveMessage] = processor.AddProcessor(message.UserMoveMessage, processor.UserMoveProcess)
 }
 
 func registerResponse() {

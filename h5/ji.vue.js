@@ -46,14 +46,33 @@ jivue = new Vue({
   });
   // balls[0].speed = 0.5;
   function moveball1x(xf ) {
-		var ballObj = balls[0];
-    ballObj.xflag = xf == 0?true:false;
-    ballObj.yflag = -1
-    console.log(ballObj);
+		var ball = balls[0];
+    ball.xflag = xf == 0?true:false;
+
+    console.log(ball);
+
+    var message = {}
+					
+    message.pos = ball.x + "," + ball.y + "," + ball.xflag + "," + ball.yflag
+    message.userID = userID
+    message.data = "你好"
+    var bytes = JSON.stringify(message)
+  
+    websocketManager.sendObject(messageEnum.UserMoveMessage, message)
+      
   }
   function moveball1y(yf) {
-		var ballObj = balls[0];
-    ballObj.xflag = -1
-    ballObj.yflag = yf == 0?true:false;  
-    console.log(ballObj);
+		var ball = balls[0];
+   
+    ball.yflag = yf == 0?true:false;  
+    console.log(ball);
+
+    var message = {}
+					
+    message.pos = ball.x + "," + ball.y + "," + ball.xflag + "," + ball.yflag
+    message.userID = userID
+    message.data = "你好"
+    var bytes = JSON.stringify(message)
+  
+    websocketManager.sendObject(messageEnum.UserMoveMessage, message)
 	}
