@@ -11,17 +11,19 @@ function createBalls(message) {
     ball.xflag = message.pos.split(",")[2] == "true" ? true : false;
     ball.yflag = message.pos.split(",")[3] == "true" ? true : false;
    
-    ball.speed = 0.5
+    ball.speedX = 0.5
+    ball.speedY = 0.5
     ball.userID = message.userID
-    
+
     //随机小球的背景颜色
     //ball.style.backgroundColor = i == 0 ? "#F00" : randomColor();
     ball.style.backgroundColor = randomColor();
     ball.innerHTML = balls.length + 1;
+    ball.index = balls.length
     //将小球插入当wrapDiv中
     wrapDiv.appendChild(ball);
     //将所有的小球存储到数组中
     balls.push(ball);
 
-    moveBalls(ball, balls.length - 1);
+    ballActionManager.startIntervalMove(ball)
 }

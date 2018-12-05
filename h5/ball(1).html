@@ -124,7 +124,8 @@
 			ball.x = randomNum(0, 1200);
 			ball.y = randomNum(0, 700);
 			//随机小球的移动速度
-			ball.speed = 0.5
+			ball.speedX = 0.5
+			ball.speedY = 0.5
 			//随机小球移动的方向
 			if (Math.random() - 0.5 > 0) {
 				ball.xflag = true;
@@ -140,11 +141,14 @@
 			//ball.style.backgroundColor = i == 0 ? "#F00" : randomColor();
 			ball.style.backgroundColor = randomColor();
 			ball.innerHTML = i + 1;
+			ball.index = i;
 			//将小球插入当wrapDiv中
 			wrapDiv.appendChild(ball);
 			//将所有的小球存储到数组中
 			balls.push(ball);
-			moveBalls(ball, 0);
+			//moveBalls(ball, 0);
+			ballActionManager.startIntervalMove(ball)
+
 			var message = {}
 					
 			message.pos = ball.x + "," + ball.y + "," + ball.xflag + "," + ball.yflag
@@ -157,56 +161,56 @@
 	}
 	createBalls();
 	//小球移动函数，判断小球的位置
-	function moveBalls(ballObj, index) {
-		setInterval(function () {
-			ballObj.style.top = ballObj.y + "px";
-			ballObj.style.left = ballObj.x + "px";
-			//判断小球的标志量，对小球作出相应操作
-			if (ballObj.yflag == -1) {
+	// function moveBalls(ballObj, index) {
+	// 	setInterval(function () {
+	// 		ballObj.style.top = ballObj.y + "px";
+	// 		ballObj.style.left = ballObj.x + "px";
+	// 		//判断小球的标志量，对小球作出相应操作
+	// 		if (ballObj.yflag == -1) {
 
-			}
-			else if (ballObj.yflag) {
-				//小球向下移动
-				ballObj.y += ballObj.speed;
-				if (ballObj.y >= 800 - ballObj.offsetWidth) {
-					ballObj.y = 800 - ballObj.offsetWidth;
-					ballObj.yflag = false;
-				}
-			} else {
-				//小球向上移动
-				ballObj.y -= ballObj.speed;
-				if (ballObj.y <= 0) {
-					ballObj.y = 0;
-					ballObj.yflag = true;
-				}
-			}
+	// 		}
+	// 		else if (ballObj.yflag) {
+	// 			//小球向下移动
+	// 			ballObj.y += ballObj.speed;
+	// 			if (ballObj.y >= 800 - ballObj.offsetWidth) {
+	// 				ballObj.y = 800 - ballObj.offsetWidth;
+	// 				ballObj.yflag = false;
+	// 			}
+	// 		} else {
+	// 			//小球向上移动
+	// 			ballObj.y -= ballObj.speed;
+	// 			if (ballObj.y <= 0) {
+	// 				ballObj.y = 0;
+	// 				ballObj.yflag = true;
+	// 			}
+	// 		}
 
-			if (ballObj.xflag == -1) {
+	// 		if (ballObj.xflag == -1) {
 
-			}else if (ballObj.xflag) {
-				//小球向右移动
-				ballObj.x += ballObj.speed;
-				if (ballObj.x >= 1300 - ballObj.offsetHeight) {
-					ballObj.x = 1300 - ballObj.offsetHeight;
-					ballObj.xflag = false;
-				}
-			} else {
-				//小球向左移动
-				ballObj.x -= ballObj.speed;
-				if (ballObj.x <= 0) {
-					ballObj.x = 0;
-					ballObj.xflag = true;
-				}
-			}
+	// 		}else if (ballObj.xflag) {
+	// 			//小球向右移动
+	// 			ballObj.x += ballObj.speed;
+	// 			if (ballObj.x >= 1300 - ballObj.offsetHeight) {
+	// 				ballObj.x = 1300 - ballObj.offsetHeight;
+	// 				ballObj.xflag = false;
+	// 			}
+	// 		} else {
+	// 			//小球向左移动
+	// 			ballObj.x -= ballObj.speed;
+	// 			if (ballObj.x <= 0) {
+	// 				ballObj.x = 0;
+	// 				ballObj.xflag = true;
+	// 			}
+	// 		}
 
-			if(index!=0 && ballObj.speed >=0.5 ){
-				//摩擦系数
-				//ballObj.speed = ballObj.speed * 0.98;
-			}
+	// 		if(index!=0 && ballObj.speed >=0.5 ){
+	// 			//摩擦系数
+	// 			//ballObj.speed = ballObj.speed * 0.98;
+	// 		}
 
-			//crash(ballObj, index);
-		}, 10);
-	}
+	// 		//crash(ballObj, index);
+	// 	}, 10);
+	// }
 	var x1, y1, x2, y2;
 	//碰撞函数
 	function crash(ballObj, index) {
@@ -257,8 +261,8 @@
 						ballObj.yflag = false;
 					}
 					//Laketony:碰撞后的动能增加
-					ballObj.speed = 2.0;
-					balls[i].speed = 2.0;
+					// ballObj.speed = 2.0;
+					// balls[i].speed = 2.0;
 				}
 			}
 		}
@@ -270,6 +274,7 @@
 </script>
 <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
 <script src="ji.vue.js"></script>
+<script src="BallAction/BallActionManager.js"></script>
 <script src="Message/MessageEnum.js"></script>
 <script src="Processor/ProcessNewUserEnter.js"></script>
 <script src="Processor/PorcessUserMove.js"></script>
@@ -279,7 +284,6 @@
 
 
 <script type="text/javascript">
-console.log("123")
 websocketManager.registerProcssor(messageEnum.NewUserEnterBroadCast, processNewUserEnter)
 websocketManager.registerProcssor(messageEnum.UserMovedBroadCast, processUserMove)
 websocketManager.registerProcssor(messageEnum.OnReadyBroadCast, processOnReady)
