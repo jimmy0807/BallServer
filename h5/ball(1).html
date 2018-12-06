@@ -211,62 +211,62 @@
 	// 		//crash(ballObj, index);
 	// 	}, 10);
 	// }
-	var x1, y1, x2, y2;
-	//碰撞函数
-	function crash(ballObj, index) {
-		//通过传过来的小球对象来获取小球的X坐标和Y坐标
-		x1 = ballObj.x;
-		y1 = ballObj.y;
-		for (var i = 0; i < balls.length; i++) {
-			//确保不和自己对比
-			if (ballObj != balls[i]) {
-				x2 = balls[i].x;
-				y2 = balls[i].y;
-				//判断位置的平方和小球的圆心坐标的关系
-				var test = Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)
-				var test2 = Math.pow(ballObj.offsetWidth + balls[i].offsetWidth, 2)
-				if (Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2) + 1 <= Math.pow(ballObj.offsetWidth / 2 + balls[i].offsetWidth / 2, 2)) {
-					//判断传过来的小球对象，相对于碰撞小球的哪个方位
-					if (ballObj.x < balls[i].x) {
-						if (ballObj.y < balls[i].y) {
-							//小球对象在被碰小球的左上角
-							ballObj.yflag = false;
-							ballObj.xflag = false;
-						} else if (ballObj.y > balls[i].y) {
-							//小球对象在被碰小球的左下角
-							ballObj.xflag = false;
-							ballObj.yflag = true;
-						} else {
-							//小球对象在被撞小球的正左方
-							ballObj.xflag = false;
-						}
-					} else if (ballObj.x > balls[i].x) {
-						if (ballObj.y < balls[i].y) {
-							//小球对象在被碰撞小球的右上方
-							ballObj.yflag = false;
-							ballObj.xflag = true;
-						} else if (ballObj.y > balls[i].y) {
-							//小球对象在被碰撞小球的右下方
-							ballObj.xflag = true;
-							ballObj.yflag = true;
-						} else {
-							//小球对象在被撞小球的正右方
-							ballObj.xflag = true;
-						}
-					} else if (ballObj.y > balls[i].y) {
-						//小球对象在被撞小球的正下方
-						ballObj.yflag = true;
-					} else if (ballObj.y < balls[i].y) {
-						//小球对象在被撞小球的正上方
-						ballObj.yflag = false;
-					}
-					//Laketony:碰撞后的动能增加
-					// ballObj.speed = 2.0;
-					// balls[i].speed = 2.0;
-				}
-			}
-		}
-	}
+	// var x1, y1, x2, y2;
+	// //碰撞函数
+	// function crash(ballObj, index) {
+	// 	//通过传过来的小球对象来获取小球的X坐标和Y坐标
+	// 	x1 = ballObj.x;
+	// 	y1 = ballObj.y;
+	// 	for (var i = 0; i < balls.length; i++) {
+	// 		//确保不和自己对比
+	// 		if (ballObj != balls[i]) {
+	// 			x2 = balls[i].x;
+	// 			y2 = balls[i].y;
+	// 			//判断位置的平方和小球的圆心坐标的关系
+	// 			var test = Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)
+	// 			var test2 = Math.pow(ballObj.offsetWidth + balls[i].offsetWidth, 2)
+	// 			if (Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2) + 1 <= Math.pow(ballObj.offsetWidth / 2 + balls[i].offsetWidth / 2, 2)) {
+	// 				//判断传过来的小球对象，相对于碰撞小球的哪个方位
+	// 				if (ballObj.x < balls[i].x) {
+	// 					if (ballObj.y < balls[i].y) {
+	// 						//小球对象在被碰小球的左上角
+	// 						ballObj.yflag = false;
+	// 						ballObj.xflag = false;
+	// 					} else if (ballObj.y > balls[i].y) {
+	// 						//小球对象在被碰小球的左下角
+	// 						ballObj.xflag = false;
+	// 						ballObj.yflag = true;
+	// 					} else {
+	// 						//小球对象在被撞小球的正左方
+	// 						ballObj.xflag = false;
+	// 					}
+	// 				} else if (ballObj.x > balls[i].x) {
+	// 					if (ballObj.y < balls[i].y) {
+	// 						//小球对象在被碰撞小球的右上方
+	// 						ballObj.yflag = false;
+	// 						ballObj.xflag = true;
+	// 					} else if (ballObj.y > balls[i].y) {
+	// 						//小球对象在被碰撞小球的右下方
+	// 						ballObj.xflag = true;
+	// 						ballObj.yflag = true;
+	// 					} else {
+	// 						//小球对象在被撞小球的正右方
+	// 						ballObj.xflag = true;
+	// 					}
+	// 				} else if (ballObj.y > balls[i].y) {
+	// 					//小球对象在被撞小球的正下方
+	// 					ballObj.yflag = true;
+	// 				} else if (ballObj.y < balls[i].y) {
+	// 					//小球对象在被撞小球的正上方
+	// 					ballObj.yflag = false;
+	// 				}
+	// 				//Laketony:碰撞后的动能增加
+	// 				// ballObj.speed = 2.0;
+	// 				// balls[i].speed = 2.0;
+	// 			}
+	// 		}
+	// 	}
+	// }
 	// for (var i = 0; i < balls.length; i++) {
 	// 	//将所有的小球传到函数中,来实现对小球的移动
 	// 	moveBalls(balls[i], i);
