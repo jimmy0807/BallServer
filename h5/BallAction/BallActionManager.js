@@ -38,7 +38,7 @@ BallAction.prototype.moveToTargetPostion = function(ball)
 
     //先计算10次后 球的真正位置
     caculateNextPostion(ball, count)
-
+    console.log("10次后会在 x:" + catchUp.x + "  y:" + catchUp.y)
     
     ball.xflag = catchUp.x - ball.x > 0 ? 1 : -1;
     ball.yflag = catchUp.y - ball.y > 0 ? 1 : -1;
@@ -48,19 +48,21 @@ BallAction.prototype.moveToTargetPostion = function(ball)
     that.stopIntervalMove(ball)
     
     ball.interval = setInterval(function () {
-        that.justMove(ball)
         if ( times > 0 )
         {
+            console.log("第" + times + "次我在 x:" + ball.x + "  y:" + ball.y)
             times--;
         }
         else if ( times == 0 )
         {
+            console.log("10次时间到了 我在 x:" + ball.x + "  y:" + ball.y)
             times--;
             ball.xflag = catchUp.xflag;
             ball.yflag = catchUp.yflag;
             ball.speedX = catchUp.speedX;
             ball.speedY = catchUp.speedY;
         }
+        that.justMove(ball)
     },10)
 }
 
