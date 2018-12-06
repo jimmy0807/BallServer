@@ -1,9 +1,13 @@
 //class BallAction{}
 function BallAction(){}
 
-BallAction.prototype.startIntervalMove = function(ball)
+BallAction.prototype.startIntervalMove = function(ball, notMoveImmediately)
 {
-    this.justMove(ball)
+    if ( !notMoveImmediately )
+    {
+        this.justMove(ball)
+    }
+    
     that = this
     ball.interval = setInterval(function () {
         that.justMove(ball)
@@ -21,20 +25,43 @@ BallAction.prototype.stopIntervalMove = function(ball)
 
 BallAction.prototype.moveToTargetPostion = function(ball)
 {
+    that = this
+
     times = 10
     count = 10
     catchUp = ball.catchUp
    
-    catchUp.x = parseFloat(message.pos.split(",")[0])
-    catchUp.y = parseFloat(message.pos.split(",")[1])
-    catchUp.xflag = message.pos.split(",")[2] == "1" ? 1 : -1;
-    catchUp.yflag = message.pos.split(",")[3] == "1" ? 1 : -1;
     catchUp.speedX = ball.speedX
     catchUp.speedY = ball.speedY
     catchUp.offsetWidth = ball.offsetWidth
     catchUp.offsetHeight = ball.offsetHeight
 
+    //先计算10次后 球的真正位置
     caculateNextPostion(ball, count)
+
+    
+    ball.xflag = catchUp.x - ball.x > 0 ? 1 : -1;
+    ball.yflag = catchUp.y - ball.y > 0 ? 1 : -1;
+    ball.speedX = Math.abs(( catchUp.x - ball.x ) / count)
+    ball.speedY = Math.abs(( catchUp.y - ball.y ) / count)
+
+    that.stopIntervalMove(ball)
+    
+    ball.interval = setInterval(function () {
+        that.justMove(ball)
+        if ( times > 0 )
+        {
+            times--;
+        }
+        else if ( times == 0 )
+        {
+            times--;
+            ball.xflag = catchUp.xflag;
+            ball.yflag = catchUp.yflag;
+            ball.speedX = catchUp.speedX;
+            ball.speedY = catchUp.speedY;
+        }
+    },10)
 }
 
 function caculateNextPostion(ball, count)
@@ -66,7 +93,7 @@ function caculateNextPostion(ball, count)
                 catchUp.x = 1300 - catchUp.offsetHeight;
                 catchUp.xflag = -1;
             }
-        } else if (ball.xflag == -1) {
+        } else if (catchUp.xflag == -1) {
             //小球向左移动
             catchUp.x -= catchUp.speedX;
             if (catchUp.x <= 0) {

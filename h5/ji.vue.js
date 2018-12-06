@@ -47,7 +47,7 @@ jivue = new Vue({
   // balls[0].speed = 0.5;
   function moveball1x(xf ) {
 		var ball = balls[0];
-    ball.xflag = xf == 0?true:false;
+    ball.xflag = xf == 0? 1 : -1;
 
     console.log(ball);
 
@@ -64,7 +64,7 @@ jivue = new Vue({
   function moveball1y(yf) {
 		var ball = balls[0];
    
-    ball.yflag = yf == 0?true:false;  
+    ball.yflag = yf == 0? 1 : -1;  
     console.log(ball);
 
     var message = {}

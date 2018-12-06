@@ -43,12 +43,12 @@ function caculateDelay(ball, message)
     // ball.yflag = message.pos.split(",")[3] == "true" ? true : false;
 
     var catchUp = {}
-    catchUp.remoteX = parseFloat(message.pos.split(",")[0])
-    catchUp.remoteY = parseFloat(message.pos.split(",")[1])
-    catchUp.xflag = message.pos.split(",")[2] == "true" ? true : false;
-    catchUp.yflag = message.pos.split(",")[3] == "true" ? true : false;
+    catchUp.x = parseFloat(message.pos.split(",")[0])
+    catchUp.y = parseFloat(message.pos.split(",")[1])
+    catchUp.xflag = message.pos.split(",")[2] == "1" ? 1 : -1;
+    catchUp.yflag = message.pos.split(",")[3] == "1" ? 1 : -1;
 
-    ball.catchUp.ball = catchUp
+    ball.catchUp = catchUp
 
     ballActionManager.moveToTargetPostion(ball)
 }
