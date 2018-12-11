@@ -24,6 +24,7 @@ function createBalls(message) {
     wrapDiv.appendChild(ball);
     //将所有的小球存储到数组中
     balls.push(ball);
+    ballsHash[ball.userID] = ball
 
     ballActionManager.startIntervalMove(ball)
 }

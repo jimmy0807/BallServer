@@ -115,6 +115,7 @@
 	var wrapDiv = document.getElementById("wrap");
 	//定义数组存储所有的小球
 	var balls = [];
+	var ballsHash = {}
 	//生成小球函数
 	function createBalls() {
 		var i = 0
@@ -146,6 +147,7 @@
 			wrapDiv.appendChild(ball);
 			//将所有的小球存储到数组中
 			balls.push(ball);
+			
 			//moveBalls(ball, 0);
 			ballActionManager.startIntervalMove(ball)
 
