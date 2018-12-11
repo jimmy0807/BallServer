@@ -12,6 +12,7 @@ import (
 	"ball/net/socket/Message"
 	"ball/net/socket/Processor"
 	"ball/net/socket/Tools"
+	user "ball/net/socket/User"
 )
 
 var processingChain map[uint32]processor.ProcessingChain
@@ -58,10 +59,12 @@ func onConnected(client *websocket.Client) {
 	buffer.Write(jsonMessage)
 
 	websocket.Instance().SendToOneClient(buffer.Bytes(), client)
+
+	user.Instance().AddAccount(client)
 }
 
-func onDisConnected(message websocket.Message) {
-
+func onDisConnected(client *websocket.Client) {
+	user.Instance().RemoveAccount(client)
 }
 
 func onMessage(message []byte, client *websocket.Client) {
@@ -82,11 +85,4 @@ func onMessage(message []byte, client *websocket.Client) {
 		fmt.Println("big endian")
 		messageType = binary.LittleEndian.Uint32(message)
 	}
-
-	// fmt.Println(aa)
-	// c2 := message[4:8]
-	// fmt.Println(c2)
-	// c3 := string(c2)
-	// fmt.Println(c3)
-	// fmt.Println(string(message[4:5]))
 }

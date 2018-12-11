@@ -4,6 +4,7 @@ import (
 	"ball/net/socket"
 	"ball/net/socket/Message"
 	"ball/net/socket/Tools"
+	user "ball/net/socket/User"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -25,4 +26,7 @@ func UserMoveProcess(object interface{}, client *websocket.Client) {
 	buffer.Write(object.([]byte))
 
 	websocket.Instance().Send(buffer.Bytes(), client)
+
+	u := user.Instance().GetAllClients()[client.ID]
+	u.Position = msg.Position
 }

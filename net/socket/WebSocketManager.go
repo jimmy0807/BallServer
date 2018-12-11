@@ -64,7 +64,7 @@ func (manager *ClientManager) Start(delegate *Delegate) {
 				delete(manager.clients, conn)
 				//jsonMessage, _ := json.Marshal(&Message{Content: "/A socket has disconnected."})
 				//manager.send(jsonMessage, conn)
-				manager.delegate.onDisConnected(Message{Content: "/A new socket has disconnected."})
+				manager.delegate.onDisConnected(conn)
 			}
 		case message := <-manager.broadcast:
 			manager.delegate.onMessage(message.message, message.client)
@@ -93,6 +93,11 @@ func (manager *ClientManager) Send(message []byte, ignore *Client) {
 //SendToOneClient 发送
 func (manager *ClientManager) SendToOneClient(message []byte, client *Client) {
 	client.send <- message
+}
+
+//GetAllClients 获取所有用户
+func (manager *ClientManager) GetAllClients() map[*Client]bool {
+	return manager.clients
 }
 
 func (c *Client) read() {

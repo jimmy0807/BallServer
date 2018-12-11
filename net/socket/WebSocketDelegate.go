@@ -1,7 +1,7 @@
 package websocket
 
 type onConnected func(client *Client)
-type onDisConnected func(message Message)
+type onDisConnected func(client *Client)
 type onMessage func(message []byte, client *Client)
 
 //Delegate 代理

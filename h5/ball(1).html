@@ -279,6 +279,7 @@
 <script src="Processor/ProcessNewUserEnter.js"></script>
 <script src="Processor/PorcessUserMove.js"></script>
 <script src="Processor/ProcessOnReady.js"></script>
+<script src="Processor/ProcessNewUserEnterResponse.js"></script>
 <script src="Socket/websocketManager.js"></script>
 
 
@@ -287,5 +288,6 @@
 websocketManager.registerProcssor(messageEnum.NewUserEnterBroadCast, processNewUserEnter)
 websocketManager.registerProcssor(messageEnum.UserMovedBroadCast, processUserMove)
 websocketManager.registerProcssor(messageEnum.OnReadyBroadCast, processOnReady)
+websocketManager.registerProcssor(messageEnum.NewUserEnterResponse, processNewUserEnterResponse)
 </script>
 </html>

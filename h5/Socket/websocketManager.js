@@ -38,8 +38,10 @@ function onWebSocketJSOnLoaded()
         var bytes = event.data.slice(4);
 
         var f = websocketManager.procssorChain[messageType]
+        
         if ( f != null )
         {
+            console.log(bytes)
             f(bytes)
         }
     }
